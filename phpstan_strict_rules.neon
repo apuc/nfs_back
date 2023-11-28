@@ -1,0 +1,127 @@
+parameters:
+	polluteScopeWithLoopInitialAssignments: false
+	polluteScopeWithAlwaysIterableForeach: false
+	checkAlwaysTrueCheckTypeFunctionCall: true
+	checkAlwaysTrueInstanceof: true
+	checkAlwaysTrueStrictComparison: true
+	checkExplicitMixedMissingReturn: true
+	checkFunctionNameCase: true
+	reportMaybesInMethodSignatures: true
+	reportStaticMethodSignatures: true
+	ergebnis:
+		allowAbstractClasses: true
+		classesAllowedToBeExtended: []
+		classesNotRequiredToBeAbstractOrFinal: []
+		interfacesImplementedByContainers:
+			- Psr\Container\ContainerInterface
+
+	ignoreErrors:
+
+parametersSchema:
+	ergebnis: structure([
+		allowAbstractClasses: bool()
+		classesAllowedToBeExtended: listOf(string())
+		classesNotRequiredToBeAbstractOrFinal: listOf(string())
+		interfacesImplementedByContainers: listOf(string())
+	])
+
+rules:
+#	- PHPStan\Rules\BooleansInConditions\BooleanInBooleanNotRule
+#	- PHPStan\Rules\BooleansInConditions\BooleanInElseIfConditionRule
+#	- PHPStan\Rules\BooleansInConditions\BooleanInIfConditionRule
+#	- PHPStan\Rules\BooleansInConditions\BooleanInTernaryOperatorRule
+	- PHPStan\Rules\Classes\RequireParentConstructCallRule
+#	- PHPStan\Rules\DisallowedConstructs\DisallowedEmptyRule
+#	- PHPStan\Rules\DisallowedConstructs\DisallowedImplicitArrayCreationRule
+#	- PHPStan\Rules\DisallowedConstructs\DisallowedShortTernaryRule
+	- PHPStan\Rules\ForeachLoop\OverwriteVariablesWithForeachRule
+	- PHPStan\Rules\Methods\WrongCaseOfInheritedMethodRule
+#	- PHPStan\Rules\Operators\OperandInArithmeticPostDecrementRule
+#	- PHPStan\Rules\Operators\OperandInArithmeticPostIncrementRule
+#	- PHPStan\Rules\Operators\OperandInArithmeticPreDecrementRule
+#	- PHPStan\Rules\Operators\OperandInArithmeticPreIncrementRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticAdditionRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticDivisionRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticExponentiationRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticModuloRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticMultiplicationRule
+#	- PHPStan\Rules\Operators\OperandsInArithmeticSubtractionRule
+	- PHPStan\Rules\StrictCalls\DynamicCallOnStaticMethodsRule
+	- PHPStan\Rules\StrictCalls\StrictFunctionCallsRule
+	- PHPStan\Rules\SwitchConditions\MatchingTypeInSwitchCaseConditionRule
+#	- PHPStan\Rules\VariableVariables\VariableMethodCallRule
+#	- PHPStan\Rules\VariableVariables\VariableStaticMethodCallRule
+	- PHPStan\Rules\VariableVariables\VariableStaticPropertyFetchRule
+	- PHPStan\Rules\VariableVariables\VariableVariablesRule
+
+#	- Ergebnis\PHPStan\Rules\Closures\NoNullableReturnTypeDeclarationRule
+#	- Ergebnis\PHPStan\Rules\Closures\NoParameterWithNullableTypeDeclarationRule
+	- Ergebnis\PHPStan\Rules\Expressions\NoCompactRule
+#	- Ergebnis\PHPStan\Rules\Expressions\NoEmptyRule
+	- Ergebnis\PHPStan\Rules\Expressions\NoErrorSuppressionRule
+	- Ergebnis\PHPStan\Rules\Expressions\NoEvalRule
+#	- Ergebnis\PHPStan\Rules\Expressions\NoIssetRule
+#	- Ergebnis\PHPStan\Rules\Files\DeclareStrictTypesRule
+#	- Ergebnis\PHPStan\Rules\Functions\NoNullableReturnTypeDeclarationRule
+#	- Ergebnis\PHPStan\Rules\Functions\NoParameterWithNullableTypeDeclarationRule
+#	- Ergebnis\PHPStan\Rules\Functions\NoParameterWithNullDefaultValueRule
+#	- Ergebnis\PHPStan\Rules\Methods\FinalInAbstractClassRule
+#	- Ergebnis\PHPStan\Rules\Methods\NoConstructorParameterWithDefaultValueRule
+#	- Ergebnis\PHPStan\Rules\Methods\NoNullableReturnTypeDeclarationRule
+#	- Ergebnis\PHPStan\Rules\Methods\NoParameterWithNullableTypeDeclarationRule
+#	- Ergebnis\PHPStan\Rules\Methods\NoParameterWithNullDefaultValueRule
+#	- Ergebnis\PHPStan\Rules\Methods\PrivateInFinalClassRule
+#	- Ergebnis\PHPStan\Rules\Statements\NoSwitchRule
+conditionalTags:
+	PHPStan\Rules\ForLoop\OverwriteVariablesWithForLoopInitRule:
+		phpstan.rules.rule: %featureToggles.bleedingEdge%
+
+services:
+	-
+		class: PHPStan\Rules\BooleansInConditions\BooleanRuleHelper
+
+	-
+		class: PHPStan\Rules\Cast\UselessCastRule
+		arguments:
+			treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\Operators\OperatorRuleHelper
+	-
+		class: PHPStan\Rules\VariableVariables\VariablePropertyFetchRule
+		arguments:
+			universalObjectCratesClasses: %universalObjectCratesClasses%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\ForLoop\OverwriteVariablesWithForLoopInitRule
+
+#	-
+#		class: Ergebnis\PHPStan\Rules\Classes\FinalRule
+#		arguments:
+#			allowAbstractClasses: %ergebnis.allowAbstractClasses%
+#			classesNotRequiredToBeAbstractOrFinal: %ergebnis.classesNotRequiredToBeAbstractOrFinal%
+#		tags:
+#			- phpstan.rules.rule
+
+#	-
+#		class: Ergebnis\PHPStan\Rules\Classes\NoExtendsRule
+#		arguments:
+#			classesAllowedToBeExtended: %ergebnis.classesAllowedToBeExtended%
+#		tags:
+#			- phpstan.rules.rule
+
+	-
+		class: Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: Ergebnis\PHPStan\Rules\Methods\NoParameterWithContainerTypeDeclarationRule
+		arguments:
+			interfacesImplementedByContainers: %ergebnis.interfacesImplementedByContainers%
+		tags:
+			- phpstan.rules.rule

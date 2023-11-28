@@ -1,0 +1,25 @@
+doctrine:
+  dbal:
+    default_connection: default
+    connections:
+      default:
+        url: '%env(resolve:DATABASE_URL)%'
+        driver: pdo_pgsql
+        server_version: '14.8'
+        charset: utf-8
+
+  orm:
+    auto_generate_proxy_classes: true
+    default_entity_manager: default
+    entity_managers:
+      default:
+        connection: default
+        naming_strategy: App\Base\ORM\Mapping\UnderscoreNamingStrategy
+        auto_mapping: true
+        mappings:
+          Main:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Base/Entity'
+            prefix: 'App\Base\Entity'
+            alias: Main

@@ -1,0 +1,15 @@
+services:
+    my_formatter:
+        class: Monolog\Formatter\JsonFormatter
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404, 405]
+        nested:
+            type: stream
+            path: "php://stderr"
+            level: warning
+            formatter: my_formatter

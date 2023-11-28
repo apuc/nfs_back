@@ -1,0 +1,43 @@
+version: '3.8'
+
+volumes:
+  composer_data:
+  nfs_pg_data:
+
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
+
+services:
+  nfs-fpm:
+    container_name: nfs-fpm
+    build:
+      context: .
+      target: local-image
+    volumes:
+      - ./:/var/www/NFS
+      - composer_data:/var/data
+      - ./var/log/fpm:/var/log/fpm
+    networks:
+      - nfs
+    ports:
+      - "82:82"
+
+  nfs-postgres:
+    image: postgres:14.8-alpine
+    container_name: nfs-postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: keepitsimple
+    ports:
+      - 5434:5434
+    networks:
+      - nfs
+    restart: "no"
+    volumes:
+      - nfs_pg_data:/var/lib/postgresql/data
+    command: -p 5434
+
+networks:
+  nfs:
+    name: nfs_nfs
