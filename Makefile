@@ -71,18 +71,22 @@ setup: ## Init setup process
 	cp .env.dist .env
 	docker-compose build
 	docker-compose up -d
-	docker-compose exec ${PHP_CONTAINER_NAME} composer install --no-interaction
+	docker-compose exec ${PHP_CONTAINER_NAME} composer install --prefer-dist --no-progress --no-scripts --no-interaction
 	$(BIN_CONSOLE) doctrine:database:create --if-not-exists -n
+	$(BIN_CONSOLE) cache:clear --no-debug
+	cp phpstan.neon.dist phpstan.neon
+	cp phpunit.xml.dist phpunit.xml
+	cp php-cs-fixer.dist.php php-cs-fixer.php
 
 rebuild:
 	make down && \
 	docker-compose build ${PHP_CONTAINER_NAME}
 
 csfix: ## Run the fixer on src directory without options
-	docker-compose exec ${PHP_CONTAINER_NAME} $(VENDOR_BIN)/php-cs-fixer fix src --allow-risky=yes --using-cache=no
+	docker-compose exec ${PHP_CONTAINER_NAME} $(VENDOR_BIN)/php-cs-fixer fix src --allow-risky=yes --using-cache=yes
 
 csfix-dry: ## Run the fixer on src directory without making changes
-	docker-compose exec ${PHP_CONTAINER_NAME} $(VENDOR_BIN)/php-cs-fixer fix src --dry-run --diff --using-cache=no
+	docker-compose exec ${PHP_CONTAINER_NAME} $(VENDOR_BIN)/php-cs-fixer fix src --dry-run --diff --using-cache=yes
 
 bash:
 	exec ${DOCKER_BASH}

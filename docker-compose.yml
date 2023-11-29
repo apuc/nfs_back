@@ -4,10 +4,6 @@ volumes:
   composer_data:
   nfs_pg_data:
 
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
-
 services:
   nfs-fpm:
     container_name: nfs-fpm
@@ -33,11 +29,10 @@ services:
       - 5434:5434
     networks:
       - nfs
-    restart: "no"
     volumes:
       - nfs_pg_data:/var/lib/postgresql/data
     command: -p 5434
 
 networks:
   nfs:
-    name: nfs_nfs
+    driver: bridge

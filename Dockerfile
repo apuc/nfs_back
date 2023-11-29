@@ -66,11 +66,6 @@ COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY docker/nginx/nfs.conf /etc/nginx/sites-enabled/default
 ENTRYPOINT ["/entrypoint.sh"]
 
-# ========================================  test-image  ========================================
-FROM app-image as test-image
-
-RUN sudo -u www-data composer install --prefer-dist --no-progress --no-scripts --no-interaction
-
 # ========================================  local-image  ========================================
 FROM web-image as local-image
 RUN sudo -u www-data composer install --prefer-dist --no-progress --no-scripts --no-interaction
