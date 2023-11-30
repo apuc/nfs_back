@@ -23,6 +23,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
     public function __construct(int $case = CASE_LOWER, bool $numberAware = true)
     {
         if (!$numberAware) {
+            /* @phpstan-ignore-next-line */
             @trigger_error(
                 'Creating '.self::class.' without making it number aware is deprecated and will be removed in Doctrine ORM 3.0.',
                 E_USER_DEPRECATED

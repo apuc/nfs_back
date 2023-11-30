@@ -2,6 +2,7 @@ parameters:
 	polluteScopeWithLoopInitialAssignments: false
 	polluteScopeWithAlwaysIterableForeach: false
 	checkAlwaysTrueCheckTypeFunctionCall: true
+	checkGenericClassInNonGenericObjectType: false
 	checkAlwaysTrueInstanceof: true
 	checkAlwaysTrueStrictComparison: true
 	checkExplicitMixedMissingReturn: true
