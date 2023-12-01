@@ -4,3 +4,4 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
       dateTimeHelper: '@App\Base\Helper\DateTimeHelper'
+      contextService: '@App\Service\ContextService\ContextService'
