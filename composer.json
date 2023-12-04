@@ -23,6 +23,7 @@
     "guzzlehttp/guzzle": "^7.4",
     "jms/serializer": "^3.10",
     "jms/serializer-bundle": "^5.2",
+    "nelmio/api-doc-bundle": "^4.12",
     "nyholm/psr7": "^1.6",
     "ramsey/uuid-doctrine": "^1.5",
     "sensio/framework-extra-bundle": "^6.2",

@@ -6,6 +6,10 @@ partners_controllers:
   resource: ../../src/Service/PartnerService/Controller/
   type: attribute
 
+api_controllers:
+  resource: ../../src/API/Controller/
+  type: attribute
+
 kernel:
   resource: ../../src/Kernel.php
   type: attribute

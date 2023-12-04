@@ -13,9 +13,12 @@ class PartnerService
     ) {
     }
 
+    /**
+     * @return PartnerDTO[]
+     */
     public function getList(): array
     {
-        return [];
+        return $this->manager->getList();
     }
 
     public function createNew(): void

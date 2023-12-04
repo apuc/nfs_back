@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Service\AuthService\Repository\PartnerRepository;
+use App\Repository\PartnerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
-#[ORM\Table(name: 'partner')]
+#[ORM\Table(name: 'partner', options: ['comment' => 'Справочник ТСП'])]
 class Partner
 {
     use TimestampableEntity;
@@ -23,13 +23,13 @@ class Partner
     #[ORM\Column(type: Types::STRING, length: 200, nullable: false)]
     private string $name;
 
-    #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
+    #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true, 'comment' => 'Реквизиты компании'])]
     private array $details = [];
 
-    #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
+    #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true, 'comment' => 'Контакты'])]
     private array $contacts = [];
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true, options: ['comment' => 'Направление деятельности'])]
     private ?string $occupation = null;
 
     public function getId(): int
@@ -61,6 +61,11 @@ class Partner
         return $this->details;
     }
 
+    public function getDetailsByKey(string $key): ?string
+    {
+        return $this->details[$key] ?? null;
+    }
+
     public function setDetails(array $details): self
     {
         $this->details = $details;
@@ -71,6 +76,11 @@ class Partner
     public function getContacts(): array
     {
         return $this->contacts;
+    }
+
+    public function getContactsByKey(string $key): ?string
+    {
+        return $this->contacts[$key] ?? null;
     }
 
     public function setContacts(array $contacts): self

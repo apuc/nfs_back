@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\AuthService\Repository;
+namespace App\Repository;
 
 use App\Base\Traits\DBTrait;
 use App\Entity\Partner;
