@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service\PartnerService\DTO;
+namespace API\DTO\Request;
 
-class PartnerDetailsDTO
+class PartnerRequestDTO
 {
+    private ?int $id = null;
+    private string $name;
+    private string $occupation;
     private ?string $inn = null;
     private ?string $kpp = null;
     private ?string $ogrn = null;
@@ -14,6 +17,45 @@ class PartnerDetailsDTO
     private ?string $bik = null;
     private ?string $accountNumber = null;
     private ?string $corrAccountNumber = null;
+    private ?string $phoneNumber = null;
+    private ?string $email = null;
+    private ?int $status = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getOccupation(): string
+    {
+        return $this->occupation;
+    }
+
+    public function setOccupation(string $occupation): self
+    {
+        $this->occupation = $occupation;
+
+        return $this;
+    }
 
     public function getInn(): ?string
     {
@@ -107,6 +149,42 @@ class PartnerDetailsDTO
     public function setCorrAccountNumber(?string $corrAccountNumber): self
     {
         $this->corrAccountNumber = $corrAccountNumber;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

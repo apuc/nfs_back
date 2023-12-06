@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\PartnerService;
+namespace App\Service\PartnerService\DTO;
 
 class PartnerDTO
 {
@@ -11,6 +11,7 @@ class PartnerDTO
     private PartnerDetailsDTO $details;
     private PartnerContactsDTO $contacts;
     private ?string $occupation = null;
+    private int $status;
     private \DateTimeImmutable $createdAt;
     private \DateTimeImmutable $updatedAt;
 
@@ -70,6 +71,18 @@ class PartnerDTO
     public function setOccupation(?string $occupation): self
     {
         $this->occupation = $occupation;
+
+        return $this;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

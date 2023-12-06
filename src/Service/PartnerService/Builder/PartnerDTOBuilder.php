@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Service\PartnerService\Builder;
 
 use App\Entity\Partner;
-use App\Service\PartnerService\PartnerContactsDTO;
-use App\Service\PartnerService\PartnerDetailsDTO;
-use App\Service\PartnerService\PartnerDTO;
+use App\Service\PartnerService\DTO\PartnerContactsDTO;
+use App\Service\PartnerService\DTO\PartnerDetailsDTO;
+use App\Service\PartnerService\DTO\PartnerDTO;
 
 class PartnerDTOBuilder
 {
-    public static function build(Partner $partner): PartnerDTO
+    public static function build(Partner $partner = null): ?PartnerDTO
     {
+        if (null === $partner) {
+            return null;
+        }
+
         return (new PartnerDTO())
             ->setId($partner->getId())
             ->setName($partner->getName())
@@ -33,6 +37,7 @@ class PartnerDTOBuilder
                     ->setEmail($partner->getContactsByKey('email'))
             )
             ->setOccupation($partner->getOccupation())
+            ->setStatus($partner->getStatus())
             ->setCreatedAt(\DateTimeImmutable::createFromMutable($partner->getCreatedAt()))
             ->setUpdatedAt(\DateTimeImmutable::createFromMutable($partner->getUpdatedAt()));
     }

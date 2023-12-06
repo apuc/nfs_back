@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\PartnerRepository;
+use App\Service\PartnerService\Constants\PartnerConstants;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
 #[ORM\Table(name: 'partner', options: ['comment' => 'Справочник ТСП'])]
+#[ORM\Index(columns: ['status'], name: 'partner_status_idx')]
 class Partner
 {
     use TimestampableEntity;
@@ -31,6 +33,9 @@ class Partner
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true, options: ['comment' => 'Направление деятельности'])]
     private ?string $occupation = null;
+
+    #[ORM\Column(type: Types::INTEGER, length: 2, nullable: false, options: ['default' => PartnerConstants::STATUS_NEW, 'comment' => 'Статус ТСП'])]
+    private int $status = PartnerConstants::STATUS_NEW;
 
     public function getId(): int
     {
@@ -98,6 +103,18 @@ class Partner
     public function setOccupation(?string $occupation): self
     {
         $this->occupation = $occupation;
+
+        return $this;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

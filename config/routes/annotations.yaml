@@ -7,7 +7,7 @@ partners_controllers:
   type: attribute
 
 api_controllers:
-  resource: ../../src/API/Controller/
+  resource: ../../src/API/Controller/*/*
   type: attribute
 
 kernel:
