@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\API\Controller\Partner;
 
-use API\DTO\Builder\PartnerRequestDTOBuilder;
+use App\API\DTO\Builder\PartnerRequestDTOBuilder;
 use App\Service\PartnerService\DTO\PartnerDTO;
 use App\Service\PartnerService\PartnerService;
 use JMS\Serializer\ArrayTransformerInterface;

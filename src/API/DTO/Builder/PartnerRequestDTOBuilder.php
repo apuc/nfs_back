@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace API\DTO\Builder;
+namespace App\API\DTO\Builder;
 
 use API\DTO\Request\PartnerRequestDTO;
 use Symfony\Component\HttpFoundation\Request;
