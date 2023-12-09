@@ -22,8 +22,11 @@ class Partner
     #[ORM\Column(type: Types::INTEGER, nullable: false)]
     private int $id;
 
+    #[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'partners')]
+    private City $city;
+
     #[ORM\Column(type: Types::STRING, length: 200, nullable: false)]
-    private string $name;
+    private string $title;
 
     #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true, 'comment' => 'Реквизиты компании'])]
     private array $details = [];
@@ -37,6 +40,9 @@ class Partner
     #[ORM\Column(type: Types::INTEGER, length: 2, nullable: false, options: ['default' => PartnerConstants::STATUS_NEW, 'comment' => 'Статус ТСП'])]
     private int $status = PartnerConstants::STATUS_NEW;
 
+    #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
+    private string $hash;
+
     public function getId(): int
     {
         return $this->id;
@@ -49,14 +55,14 @@ class Partner
         return $this;
     }
 
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -66,7 +72,7 @@ class Partner
         return $this->details;
     }
 
-    public function getDetailsByKey(string $key): ?string
+    public function getDetailsByKey(string $key): null|string|int
     {
         return $this->details[$key] ?? null;
     }
@@ -115,6 +121,30 @@ class Partner
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    public function setCity(City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }

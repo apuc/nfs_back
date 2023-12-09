@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\PartnerService\Builder;
 
 use App\Entity\Partner;
+use App\Service\GeoService\Builder\CityDTOBuilder;
 use App\Service\PartnerService\DTO\PartnerContactsDTO;
 use App\Service\PartnerService\DTO\PartnerDetailsDTO;
 use App\Service\PartnerService\DTO\PartnerDTO;
@@ -19,17 +20,17 @@ class PartnerDTOBuilder
 
         return (new PartnerDTO())
             ->setId($partner->getId())
-            ->setName($partner->getName())
+            ->setTitle($partner->getTitle())
             ->setDetails(
                 (new PartnerDetailsDTO())
-                ->setInn($partner->getDetailsByKey('inn'))
-                ->setKpp($partner->getDetailsByKey('kpp'))
-                ->setOgrn($partner->getDetailsByKey('ogrn'))
-                ->setAddress($partner->getDetailsByKey('address'))
-                ->setBank($partner->getDetailsByKey('bank'))
-                ->setBik($partner->getDetailsByKey('bik'))
-                ->setAccountNumber($partner->getDetailsByKey('account'))
-                ->setCorrAccountNumber($partner->getDetailsByKey('corr_account'))
+                    ->setInn((int) $partner->getDetailsByKey('inn'))
+                    ->setKpp((int) $partner->getDetailsByKey('kpp'))
+                    ->setOgrn((int) $partner->getDetailsByKey('ogrn'))
+                    ->setAddress($partner->getDetailsByKey('address'))
+                    ->setBank($partner->getDetailsByKey('bank'))
+                    ->setBik((int) $partner->getDetailsByKey('bik'))
+                    ->setAccountNumber($partner->getDetailsByKey('account'))
+                    ->setCorrAccountNumber($partner->getDetailsByKey('corr_account'))
             )
             ->setContacts(
                 (new PartnerContactsDTO())
@@ -38,6 +39,7 @@ class PartnerDTOBuilder
             )
             ->setOccupation($partner->getOccupation())
             ->setStatus($partner->getStatus())
+            ->setCity(CityDTOBuilder::build($partner->getCity()))
             ->setCreatedAt(\DateTimeImmutable::createFromMutable($partner->getCreatedAt()))
             ->setUpdatedAt(\DateTimeImmutable::createFromMutable($partner->getUpdatedAt()));
     }

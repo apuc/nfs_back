@@ -6,45 +6,45 @@ namespace App\Service\PartnerService\DTO;
 
 class PartnerDetailsDTO
 {
-    private ?string $inn = null;
-    private ?string $kpp = null;
-    private ?string $ogrn = null;
+    private ?int $inn = null;
+    private ?int $kpp = null;
+    private ?int $ogrn = null;
     private ?string $address = null;
     private ?string $bank = null;
-    private ?string $bik = null;
+    private ?int $bik = null;
     private ?string $accountNumber = null;
     private ?string $corrAccountNumber = null;
 
-    public function getInn(): ?string
+    public function getInn(): ?int
     {
         return $this->inn;
     }
 
-    public function setInn(?string $inn): self
+    public function setInn(?int $inn): self
     {
         $this->inn = $inn;
 
         return $this;
     }
 
-    public function getKpp(): ?string
+    public function getKpp(): ?int
     {
         return $this->kpp;
     }
 
-    public function setKpp(?string $kpp): self
+    public function setKpp(?int $kpp): self
     {
         $this->kpp = $kpp;
 
         return $this;
     }
 
-    public function getOgrn(): ?string
+    public function getOgrn(): ?int
     {
         return $this->ogrn;
     }
 
-    public function setOgrn(?string $ogrn): self
+    public function setOgrn(?int $ogrn): self
     {
         $this->ogrn = $ogrn;
 
@@ -75,12 +75,12 @@ class PartnerDetailsDTO
         return $this;
     }
 
-    public function getBik(): ?string
+    public function getBik(): ?int
     {
         return $this->bik;
     }
 
-    public function setBik(?string $bik): self
+    public function setBik(?int $bik): self
     {
         $this->bik = $bik;
 

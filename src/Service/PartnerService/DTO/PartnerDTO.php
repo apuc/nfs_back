@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\PartnerService\DTO;
 
+use App\Service\GeoService\DTO\CityDTO;
+
 class PartnerDTO
 {
     private int $id;
-    private string $name;
+    private CityDTO $city;
+    private string $title;
     private PartnerDetailsDTO $details;
     private PartnerContactsDTO $contacts;
     private ?string $occupation = null;
@@ -27,14 +30,26 @@ class PartnerDTO
         return $this;
     }
 
-    public function getName(): string
+    public function getCity(): CityDTO
     {
-        return $this->name;
+        return $this->city;
     }
 
-    public function setName(string $name): self
+    public function setCity(CityDTO $city): self
     {
-        $this->name = $name;
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

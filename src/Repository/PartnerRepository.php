@@ -33,4 +33,9 @@ class PartnerRepository extends ServiceEntityRepository
             ->getQuery()
             ->toIterable();
     }
+
+    public function findPartnerByHash(string $hash): ?Partner
+    {
+        return $this->findOneBy(['hash' => $hash]);
+    }
 }
