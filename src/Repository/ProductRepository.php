@@ -33,4 +33,20 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->toIterable();
     }
+
+    public function findNotRemovedByPackageId(int $packageId): array
+    {
+        return $this->createQueryBuilder('product')
+            ->where('product.status != :removedStatus')
+            ->andWhere('product.package = :package')
+            ->setParameter('removedStatus', ProductConstants::STATUS_REMOVED)
+            ->setParameter('package', $packageId)
+            ->getQuery()
+            ->getScalarResult();
+    }
+
+    public function findProductByHash(string $hash): ?Product
+    {
+        return $this->findOneBy(['hash' => $hash]);
+    }
 }

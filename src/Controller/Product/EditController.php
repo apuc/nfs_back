@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\Product;
 
-use App\DTO\Builder\PartnerCreateDTOBuilder;
-use App\DTO\Request\PartnerCreateDTO;
-use App\Service\PartnerService\Component\PartnerActionComponent;
-use App\Service\PartnerService\DTO\PartnerDTO;
+use App\DTO\Builder\ProductEditDTOBuilder;
+use App\DTO\Request\ProductEditDTO;
+use App\Service\ProductService\Component\ProductActionComponent;
+use App\Service\ProductService\DTO\ProductDTO;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -18,40 +18,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CreateController extends AbstractController
+class EditController extends AbstractController
 {
     public function __construct(
-        private PartnerActionComponent $actionComponent,
+        private ProductActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer,
         private ValidatorInterface $validator,
     ) {
     }
 
     /**
-     * Создать новое ТСП
+     * Отредактировать услугу.
      */
-    #[Route('/api/catalog/partner', methods: ['PUT'])]
+    #[Route('/api/catalog/product', methods: ['POST'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerDTO::class)
+            ref: new Model(type: ProductDTO::class)
         )
     )]
-    #[Attributes\Response(
-        response: 400,
-        description: 'Во входных данных есть ошибки',
+    #[Attributes\Parameter(
+        name: 'identifier',
+        description: 'Идентификатор услуги',
+        in: 'query',
+        required: true,
+        schema: new Attributes\Schema(type: 'integer')
     )]
     #[Attributes\RequestBody(
         required: true,
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerCreateDTO::class)
+            ref: new Model(type: ProductEditDTO::class)
         )
     )]
-    #[Attributes\Tag(name: 'Partner')]
+    #[Attributes\Tag(name: 'Product')]
     public function create(Request $request): JsonResponse
     {
-        $requestDTO = PartnerCreateDTOBuilder::build(
+        $requestDTO = ProductEditDTOBuilder::build(
+            (int) $request->get('identifier'),
             json_decode($request->getContent(), true)
         );
 
@@ -74,7 +78,7 @@ class CreateController extends AbstractController
             ->setStatusCode(200)
             ->setData([
                 'data' => $this->serializer->toArray(
-                    $this->actionComponent->createNew($requestDTO),
+                    $this->actionComponent->edit($requestDTO),
                     (new SerializationContext())->setSerializeNull(true)
                 ),
                 'errors' => null,

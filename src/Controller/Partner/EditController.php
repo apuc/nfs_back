@@ -6,8 +6,8 @@ namespace App\Controller\Partner;
 
 use App\DTO\Builder\PartnerEditDTOBuilder;
 use App\DTO\Request\PartnerEditDTO;
+use App\Service\PartnerService\Component\PartnerActionComponent;
 use App\Service\PartnerService\DTO\PartnerDTO;
-use App\Service\PartnerService\PartnerService;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EditController extends AbstractController
 {
     public function __construct(
-        private PartnerService $partnerService,
+        private PartnerActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer,
         private ValidatorInterface $validator,
     ) {
@@ -78,7 +78,7 @@ class EditController extends AbstractController
             ->setStatusCode(200)
             ->setData([
                 'data' => $this->serializer->toArray(
-                    $this->partnerService->edit($requestDTO),
+                    $this->actionComponent->edit($requestDTO),
                     (new SerializationContext())->setSerializeNull(true)
                 ),
                 'errors' => null,

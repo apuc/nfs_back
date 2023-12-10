@@ -6,11 +6,10 @@ namespace App\Service\ProductService\Builder;
 
 use App\Entity\ProductPackage;
 use App\Service\ProductService\DTO\ProductPackageDTO;
-use DateTimeImmutable;
 
 class ProductPackageDTOBuilder
 {
-    public static function build(?ProductPackage $package = null): ?ProductPackageDTO
+    public static function build(ProductPackage $package = null): ?ProductPackageDTO
     {
         if (null === $package) {
             return null;
@@ -21,8 +20,8 @@ class ProductPackageDTOBuilder
             ->setTitle($package->getTitle())
             ->setAmount($package->getAmount())
             ->setType($package->getType())
-            ->setFinishedAt(DateTimeImmutable::createFromMutable($package->getFinishedAt()))
-            ->setCreatedAt(DateTimeImmutable::createFromMutable($package->getCreatedAt()))
-            ->setUpdatedAt(DateTimeImmutable::createFromMutable($package->getUpdatedAt()));
+            ->setFinishedAt(\DateTimeImmutable::createFromMutable($package->getFinishedAt()))
+            ->setCreatedAt(\DateTimeImmutable::createFromMutable($package->getCreatedAt()))
+            ->setUpdatedAt(\DateTimeImmutable::createFromMutable($package->getUpdatedAt()));
     }
 }

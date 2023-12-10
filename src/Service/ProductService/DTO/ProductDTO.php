@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace App\Service\ProductService\DTO;
 
 use App\Service\PartnerService\DTO\PartnerDTO;
-use DateTimeImmutable;
 
 class ProductDTO
 {
-    private int               $id;
-    private PartnerDTO        $partner;
+    private int $id;
+    private PartnerDTO $partner;
     private ProductPackageDTO $package;
-    private string            $title;
-    private int               $amount;
-    private ?string           $description = null;
-    private int               $useCount;
-    private int               $status;
-    private string            $hash;
-    private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $updatedAt;
+    private string $title;
+    private int $amount;
+    private ?string $description = null;
+    private int $useCount;
+    private int $status;
+    private string $hash;
+    private \DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $updatedAt;
 
     public function getId(): int
     {
@@ -129,24 +128,24 @@ class ProductDTO
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

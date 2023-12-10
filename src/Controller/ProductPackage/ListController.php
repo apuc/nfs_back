@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\ProductPackage;
 
-use App\Service\PartnerService\Component\PartnerActionComponent;
-use App\Service\PartnerService\DTO\PartnerDTO;
+use App\Service\ProductService\Component\ProductPackageActionComponent;
+use App\Service\ProductService\DTO\ProductPackageDTO;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -17,26 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class ListController extends AbstractController
 {
     public function __construct(
-        private PartnerActionComponent $actionComponent,
+        private ProductPackageActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer
     ) {
     }
 
     /**
-     * Получить список ТСП
+     * Получить список пакетов услуг.
      */
-    #[Route('/api/catalog/partner/list', methods: ['GET'])]
+    #[Route('/api/catalog/product/package/list', methods: ['GET'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
         content: new Attributes\JsonContent(
             type: 'array',
             items: new Attributes\Items(
-                ref: new Model(type: PartnerDTO::class)
+                ref: new Model(type: ProductPackageDTO::class)
             )
         )
     )]
-    #[Attributes\Tag(name: 'Partner')]
+    #[Attributes\Tag(name: 'Product package')]
     public function getList(): JsonResponse
     {
         return new JsonResponse([

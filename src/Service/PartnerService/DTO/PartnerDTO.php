@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\PartnerService\DTO;
 
 use App\Service\GeoService\DTO\CityDTO;
-use DateTimeImmutable;
 
 class PartnerDTO
 {
@@ -16,8 +15,8 @@ class PartnerDTO
     private PartnerContactsDTO $contacts;
     private ?string $occupation = null;
     private int $status;
-    private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $updatedAt;
+    private \DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $updatedAt;
 
     public function getId(): int
     {
@@ -103,24 +102,24 @@ class PartnerDTO
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

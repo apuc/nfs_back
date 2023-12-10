@@ -7,12 +7,12 @@ namespace App\Service\ProductService\Constants;
 class ProductConstants
 {
     /**
-     * Полный пакет услуг, доступны все услуги
+     * Полный пакет услуг, доступны все услуги.
      */
     public const FULL = 1;
 
     /**
-     * Частичный пакет услуг, доступна только часть услуг
+     * Частичный пакет услуг, доступна только часть услуг.
      */
     public const PARTIAL = 2;
 

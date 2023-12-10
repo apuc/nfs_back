@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\DTO\Request;
 
-use App\Service\PartnerService\Constants\PartnerConstants;
 use App\Service\Validator\Constraints as AcmeAssert;
 use Doctrine\DBAL\Types\Types;
 use JMS\Serializer\Annotation\Exclude;
@@ -92,12 +91,6 @@ class PartnerEditDTO
     )]
     #[AcmeAssert\Email]
     private ?string $email = null;
-
-    #[Attributes\Property(
-        description: 'Статус ТСП',
-        type: Types::INTEGER,
-    )]
-    private ?int $status = PartnerConstants::STATUS_NEW;
 
     #[Attributes\Property(
         description: 'Город',
@@ -261,18 +254,6 @@ class PartnerEditDTO
     public function setEmail(?string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }

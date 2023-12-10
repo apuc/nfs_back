@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Product;
 
+use App\Service\ProductService\Component\ProductActionComponent;
 use App\Service\ProductService\DTO\ProductDTO;
-use App\Service\ProductService\ProductService;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -17,13 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ListController extends AbstractController
 {
     public function __construct(
-        private ProductService $productService,
+        private ProductActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer
     ) {
     }
 
     /**
-     * Получить список услуг
+     * Получить список услуг.
      */
     #[Route('/api/catalog/product/list', methods: ['GET'])]
     #[Attributes\Response(
@@ -41,7 +41,7 @@ class ListController extends AbstractController
     {
         return new JsonResponse([
             'data' => $this->serializer->toArray(
-                $this->productService->getList(),
+                $this->actionComponent->getList(),
                 (new SerializationContext())->setSerializeNull(true)
             ),
         ]);

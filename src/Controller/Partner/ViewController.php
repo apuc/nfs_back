@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Partner;
 
+use App\Service\PartnerService\Component\PartnerActionComponent;
 use App\Service\PartnerService\DTO\PartnerDTO;
-use App\Service\PartnerService\PartnerService;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ViewController extends AbstractController
 {
     public function __construct(
-        private PartnerService $partnerService,
+        private PartnerActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer
     ) {
     }
@@ -53,11 +53,21 @@ class ViewController extends AbstractController
             throw new BadRequestHttpException('Param `identifier` is required');
         }
 
-        return new JsonResponse([
-            'data' => $this->serializer->toArray(
-                $this->partnerService->view((int) trim($identifier)),
+        $response = null;
+        $statusCode = 404;
+        $partner = $this->actionComponent->view((int) trim($identifier));
+        if (null !== $partner) {
+            $response = $this->serializer->toArray(
+                $partner,
                 (new SerializationContext())->setSerializeNull(true)
-            ),
-        ]);
+            );
+            $statusCode = 200;
+        }
+
+        return (new JsonResponse())
+            ->setStatusCode($statusCode)
+            ->setData([
+                'data' => $response,
+            ]);
     }
 }

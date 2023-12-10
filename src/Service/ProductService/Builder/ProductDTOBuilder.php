@@ -7,11 +7,10 @@ namespace App\Service\ProductService\Builder;
 use App\Entity\Product;
 use App\Service\PartnerService\Builder\PartnerDTOBuilder;
 use App\Service\ProductService\DTO\ProductDTO;
-use DateTimeImmutable;
 
 class ProductDTOBuilder
 {
-    public static function build(?Product $product = null): ?ProductDTO
+    public static function build(Product $product = null): ?ProductDTO
     {
         if (null === $product) {
             return null;
@@ -27,7 +26,7 @@ class ProductDTOBuilder
             ->setUseCount($product->getUseCount())
             ->setStatus($product->getStatus())
             ->setHash($product->getHash())
-            ->setCreatedAt(DateTimeImmutable::createFromMutable($product->getCreatedAt()))
-            ->setUpdatedAt(DateTimeImmutable::createFromMutable($product->getUpdatedAt()));
+            ->setCreatedAt(\DateTimeImmutable::createFromMutable($product->getCreatedAt()))
+            ->setUpdatedAt(\DateTimeImmutable::createFromMutable($product->getUpdatedAt()));
     }
 }

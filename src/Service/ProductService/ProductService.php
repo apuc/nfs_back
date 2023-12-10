@@ -4,66 +4,25 @@ declare(strict_types=1);
 
 namespace App\Service\ProductService;
 
+use App\Entity\ProductPackage;
 use App\Repository\ProductPackageRepository;
 use App\Repository\ProductRepository;
-use App\Service\ProductService\Builder\ProductDTOBuilder;
-use App\Service\ProductService\Constants\ProductConstants;
-use App\Service\ProductService\DTO\ProductDTO;
-use Psr\Log\LoggerInterface;
-use Throwable;
 
 class ProductService
 {
     public function __construct(
-        private ProductRepository $productRepository,
         private ProductPackageRepository $packageRepository,
-        private LoggerInterface $productLogger,
+        private ProductRepository $productRepository,
     ) {
     }
 
-    /**
-     * @return ProductDTO[]
-     */
-    public function getList(): array
+    public function findProductPackageById(int $identifier): ?ProductPackage
     {
-        $result = [];
-        foreach ($this->productRepository->findAllNotRemoved() as $product) {
-            $result[] = ProductDTOBuilder::build($product);
-        }
-
-        return $result;
+        return $this->packageRepository->findOneBy(['id' => $identifier]);
     }
 
-    public function view(int $identifier): ProductDTO
+    public function findNotRemoveProductsByPackageBy(int $packageId): array
     {
-        return ProductDTOBuilder::build(
-            $this->productRepository->findOneBy(['id' => $identifier])
-        );
+        return $this->productRepository->findNotRemovedByPackageId($packageId);
     }
-
-    public function deleteItem(int $identifier): bool
-    {
-        try {
-            $product = $this->productRepository->findOneBy(['id' => $identifier]);
-            if (null !== $product) {
-                $product->setStatus(ProductConstants::STATUS_REMOVED);
-
-                $this->productRepository->save($product);
-            }
-
-            return true;
-        } catch (Throwable $exception) {
-            $this->productLogger->critical(
-                'Error when product remove: ' . $exception->getMessage(),
-                [
-                    'identifier' => $identifier,
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
-                ]
-            );
-
-            return false;
-        }
-    }
-
 }

@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Repository\ProductPackageRepository;
 use App\Service\ProductService\Constants\ProductConstants;
-use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -30,13 +29,19 @@ class ProductPackage
     private int $amount;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $finishedAt = null;
+    private ?\DateTime $finishedAt = null;
 
     #[ORM\Column(type: Types::INTEGER, length: 1, nullable: false)]
     private int $type = ProductConstants::FULL;
 
+    #[ORM\Column(type: Types::INTEGER, length: 2, nullable: false, options: ['default' => ProductConstants::STATUS_ACTIVE, 'comment' => 'Статус пакета услуг'])]
+    private int $status = ProductConstants::STATUS_ACTIVE;
+
     #[ORM\OneToMany(mappedBy: 'productPackage', targetEntity: Product::class)]
     private ?PersistentCollection $products = null;
+
+    #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
+    private string $hash;
 
     public function getId(): int
     {
@@ -74,12 +79,12 @@ class ProductPackage
         return $this;
     }
 
-    public function getFinishedAt(): ?DateTime
+    public function getFinishedAt(): ?\DateTime
     {
         return $this->finishedAt;
     }
 
-    public function setFinishedAt(?DateTime $finishedAt): self
+    public function setFinishedAt(?\DateTime $finishedAt): self
     {
         $this->finishedAt = $finishedAt;
 
@@ -98,6 +103,18 @@ class ProductPackage
         return $this;
     }
 
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function getProducts(): ?PersistentCollection
     {
         return $this->products;
@@ -106,6 +123,18 @@ class ProductPackage
     public function addProduct(Product $product): self
     {
         $this->products->add($product);
+
+        return $this;
+    }
+
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }

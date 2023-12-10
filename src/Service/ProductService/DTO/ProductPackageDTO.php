@@ -6,18 +6,19 @@ namespace App\Service\ProductService\DTO;
 
 use App\Entity\Product;
 use App\Service\ProductService\Constants\ProductConstants;
-use DateTimeImmutable;
+use JMS\Serializer\Annotation\Exclude;
 
 class ProductPackageDTO
 {
-    private int                $id;
-    private string             $title;
-    private int                $amount;
-    private ?DateTimeImmutable $finishedAt = null;
-    private int                $type       = ProductConstants::FULL;
-    private array              $products   = [];
-    private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $updatedAt;
+    private int $id;
+    private string $title;
+    private int $amount;
+    private ?\DateTimeImmutable $finishedAt = null;
+    private int $type = ProductConstants::FULL;
+    #[Exclude]
+    private array $products = [];
+    private \DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $updatedAt;
 
     public function getId(): int
     {
@@ -55,12 +56,12 @@ class ProductPackageDTO
         return $this;
     }
 
-    public function getFinishedAt(): ?DateTimeImmutable
+    public function getFinishedAt(): ?\DateTimeImmutable
     {
         return $this->finishedAt;
     }
 
-    public function setFinishedAt(?DateTimeImmutable $finishedAt): self
+    public function setFinishedAt(?\DateTimeImmutable $finishedAt): self
     {
         $this->finishedAt = $finishedAt;
 
@@ -94,24 +95,24 @@ class ProductPackageDTO
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

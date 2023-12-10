@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Partner;
 
-use App\Service\PartnerService\DTO\PartnerDTO;
-use App\Service\PartnerService\PartnerService;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use App\Service\PartnerService\Component\PartnerActionComponent;
 use OpenApi\Attributes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeleteController extends AbstractController
 {
     public function __construct(
-        private PartnerService $partnerService
+        private PartnerActionComponent $actionComponent,
     ) {
     }
 
@@ -29,9 +27,6 @@ class DeleteController extends AbstractController
     #[Attributes\Response(
         response: 200,
         description: 'Success',
-        content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerDTO::class)
-        )
     )]
     #[Attributes\Parameter(
         name: 'identifier',
@@ -49,7 +44,7 @@ class DeleteController extends AbstractController
         }
 
         return new JsonResponse([
-            'success' => $this->partnerService->deleteItem((int) trim($identifier)),
+            'success' => $this->actionComponent->deleteItem((int) trim($identifier)),
         ]);
     }
 }
