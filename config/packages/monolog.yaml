@@ -3,3 +3,4 @@ monolog:
     - 'default'
     - 'product'
     - 'partner'
+    - 'terminal'
