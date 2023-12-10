@@ -5,27 +5,26 @@ declare(strict_types=1);
 namespace App\Service\GeoService;
 
 use App\Entity\City;
+use App\Repository\CityRepository;
+use App\Service\GeoService\Builder\CityDTOBuilder;
 use App\Service\GeoService\DTO\CityDTO;
-use App\Service\GeoService\Manager\GeoManager;
 
 class GeoService
 {
     public function __construct(
-        private GeoManager $manager
+        private CityRepository $cityRepository,
     ) {
     }
 
-    public function findDTOByTitle(string $title = null): ?CityDTO
+    public function findDTOByTitle(string $title): ?CityDTO
     {
-        if (null === $title) {
-            return null;
-        }
-
-        return $this->manager->findCityByTitle($title);
+        return CityDTOBuilder::build(
+            $this->findEntityByTitle($title)
+        );
     }
 
-    public function findEntityByTitle(string $title = null): ?City
+    public function findEntityByTitle(string $title): ?City
     {
-        return $this->manager->findCityEntityByTitle($title);
+        return $this->cityRepository->findOneBy(['title' => trim($title)]);
     }
 }

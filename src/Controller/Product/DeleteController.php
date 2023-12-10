@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\Product;
 
 use App\Service\PartnerService\DTO\PartnerDTO;
 use App\Service\PartnerService\PartnerService;
+use App\Service\ProductService\ProductService;
+use JMS\Serializer\ArrayTransformerInterface;
+use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,15 +20,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeleteController extends AbstractController
 {
     public function __construct(
-        private PartnerService $partnerService
+        private ProductService $productService,
+        private ArrayTransformerInterface $serializer
     ) {
     }
 
     /**
-     * Удалить ТСП из справочника.
-     * ТСП получает status = STATUS_REMOVED.
+     * Удалить услугу из справочника.
+     * Услуга получает status = STATUS_REMOVED.
      */
-    #[Route('/api/catalog/partner', methods: ['DELETE'])]
+    #[Route('/api/catalog/product', methods: ['DELETE'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
@@ -40,7 +44,7 @@ class DeleteController extends AbstractController
         required: true,
         schema: new Attributes\Schema(type: 'integer')
     )]
-    #[Attributes\Tag(name: 'Partner')]
+    #[Attributes\Tag(name: 'Product')]
     public function delete(Request $request): JsonResponse
     {
         $identifier = $request->get('identifier');
@@ -49,7 +53,7 @@ class DeleteController extends AbstractController
         }
 
         return new JsonResponse([
-            'success' => $this->partnerService->deleteItem((int) trim($identifier)),
+            'success' => $this->productService->deleteItem((int) trim($identifier)),
         ]);
     }
 }

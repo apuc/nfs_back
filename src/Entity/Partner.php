@@ -8,6 +8,7 @@ use App\Repository\PartnerRepository;
 use App\Service\PartnerService\Constants\PartnerConstants;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
@@ -42,6 +43,9 @@ class Partner
 
     #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
     private string $hash;
+
+    #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Product::class)]
+    private ?PersistentCollection $products = null;
 
     public function getId(): int
     {
@@ -145,6 +149,18 @@ class Partner
     public function setHash(string $hash): self
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getProducts(): ?PersistentCollection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        $this->products->add($product);
 
         return $this;
     }

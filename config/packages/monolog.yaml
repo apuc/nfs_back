@@ -1,3 +1,5 @@
 monolog:
   channels:
     - 'default'
+    - 'product'
+    - 'partner'

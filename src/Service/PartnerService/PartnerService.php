@@ -12,12 +12,15 @@ use App\Service\GeoService\GeoService;
 use App\Service\PartnerService\Builder\PartnerDTOBuilder;
 use App\Service\PartnerService\Constants\PartnerConstants;
 use App\Service\PartnerService\DTO\PartnerDTO;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 class PartnerService
 {
     public function __construct(
         private PartnerRepository $repository,
         private GeoService $geoService,
+        private LoggerInterface $partnerLogger,
     ) {
     }
 
@@ -121,15 +124,28 @@ class PartnerService
         return PartnerDTOBuilder::build($partner);
     }
 
-    public function deleteItem(int $identifier): ?PartnerDTO
+    public function deleteItem(int $identifier): bool
     {
-        $partner = $this->repository->findOneBy(['id' => $identifier]);
-        if (null !== $partner) {
-            $partner->setStatus(PartnerConstants::STATUS_REMOVED);
+        try {
+            $partner = $this->repository->findOneBy(['id' => $identifier]);
+            if (null !== $partner) {
+                $partner->setStatus(PartnerConstants::STATUS_REMOVED);
 
-            $this->repository->save($partner);
+                $this->repository->save($partner);
+            }
+
+            return true;
+        } catch (Throwable $exception) {
+            $this->partnerLogger->critical(
+                'Error when partner remove: ' . $exception->getMessage(),
+                [
+                    'identifier' => $identifier,
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine(),
+                ]
+            );
+
+            return false;
         }
-
-        return PartnerDTOBuilder::build($partner);
     }
 }

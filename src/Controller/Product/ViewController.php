@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\Product;
 
-use App\Service\PartnerService\DTO\PartnerDTO;
-use App\Service\PartnerService\PartnerService;
+use App\Service\ProductService\DTO\ProductDTO;
+use App\Service\ProductService\ProductService;
+use JMS\Serializer\ArrayTransformerInterface;
+use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,23 +16,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DeleteController extends AbstractController
+class ViewController extends AbstractController
 {
     public function __construct(
-        private PartnerService $partnerService
+        private ProductService $productService,
+        private ArrayTransformerInterface $serializer
     ) {
     }
 
     /**
-     * Удалить ТСП из справочника.
-     * ТСП получает status = STATUS_REMOVED.
+     * Получить подробные данные по услуге
      */
-    #[Route('/api/catalog/partner', methods: ['DELETE'])]
+    #[Route('/api/catalog/product', methods: ['GET'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerDTO::class)
+            type: 'array',
+            items: new Attributes\Items(
+                ref: new Model(type: ProductDTO::class)
+            )
         )
     )]
     #[Attributes\Parameter(
@@ -40,8 +45,8 @@ class DeleteController extends AbstractController
         required: true,
         schema: new Attributes\Schema(type: 'integer')
     )]
-    #[Attributes\Tag(name: 'Partner')]
-    public function delete(Request $request): JsonResponse
+    #[Attributes\Tag(name: 'Product')]
+    public function view(Request $request): JsonResponse
     {
         $identifier = $request->get('identifier');
         if (null === $identifier) {
@@ -49,7 +54,10 @@ class DeleteController extends AbstractController
         }
 
         return new JsonResponse([
-            'success' => $this->partnerService->deleteItem((int) trim($identifier)),
+            'data' => $this->serializer->toArray(
+                $this->productService->view((int) trim($identifier)),
+                (new SerializationContext())->setSerializeNull(true)
+            ),
         ]);
     }
 }
