@@ -41,7 +41,6 @@ class Terminal
 
     #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
     private string $hash;
-
     public function getId(): int
     {
         return $this->id;
@@ -134,7 +133,6 @@ class Terminal
     public function setHash(string $hash): self
     {
         $this->hash = $hash;
-
         return $this;
     }
 }

@@ -26,7 +26,7 @@ class PartnerTerminal
     #[ORM\ManyToOne(targetEntity: Partner::class)]
     private Partner $partner;
 
-    #[ORM\ManyToOne(targetEntity: Partner::class)]
+    #[ORM\ManyToOne(targetEntity: Terminal::class)]
     private Terminal $terminal;
 
     #[ORM\ManyToOne(targetEntity: ProductPackage::class)]

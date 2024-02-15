@@ -38,4 +38,9 @@ class TerminalRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['hash' => $hash]);
     }
+
+    public function findTerminalById(int $id): ?Terminal
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }
