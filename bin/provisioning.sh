@@ -16,11 +16,10 @@ fi
 
 set -e
 
-source ~/.nfs/${1}
-
 ENVIRONMENT=${1}
 DEPLOY_USER=deployer
 DEBIAN_FRONTEND=noninteractive
+NEEDRESTART_MODE=a
 
 echo
 echo =========================================================
@@ -28,9 +27,9 @@ echo "Set hostname to $ENVIRONMENT"
 echo
 
 hostname "$ENVIRONMENT"
-echo "$ENVIRONMENT" | sudo tee /etc/hostname
+echo "$ENVIRONMENT" > /etc/hostname
 
-echo ">>>>>> Hostname set to $DEPLOY_USER"
+echo ">>>>>> Hostname set to $ENVIRONMENT"
 
 echo
 echo =========================================================
@@ -49,7 +48,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/
 chmod a+r /etc/apt/keyrings/docker.gpg
 
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+$(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list
 
 apt-get update > /dev/null
 apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null
@@ -81,7 +80,7 @@ certbot certonly -m "$ADMIN_EMAIL" --agree-tos --no-eff-email -d "$FDQN" --redir
 
 sed -i -E "s/^authenticator =.+$/authenticator = webroot/g" "/etc/letsencrypt/renewal/$FDQN.conf"
 
-if [ $(cat /etc/letsencrypt/renewal/test.notessysadmin.com.conf | grep 'webroot_path' | wc -l) -eq 0 ]
+if [ $(cat "/etc/letsencrypt/renewal/$FDQN.conf" | grep 'webroot_path' | wc -l) -eq 0 ]
 then
   sed -i "/\[renewalparams\]/a webroot_path = /opt/nfs/nginx/.well-known" "/etc/letsencrypt/renewal/$FDQN.conf"
 else
@@ -109,14 +108,12 @@ echo "Create work directoies"
 echo
 
 sudo -iu "$DEPLOY_USER" <<CMD
-
 mkdir ~/.nfs/
-
 CMD
 
-sudo mkdir /opt/nfs/logs -p
-sudo mkdir /opt/nfs/postgresql/data -p
-sudo mkdir /opt/nfs/nginx/.well-known -p
+mkdir /opt/nfs/logs -p
+mkdir /opt/nfs/postgresql/data -p
+mkdir /opt/nfs/nginx/.well-known -p
 
 echo ">>>>>> Work directoies created"
 

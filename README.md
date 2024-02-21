@@ -24,22 +24,28 @@
 
 ## Preparation of the environment. Install dependencies on server
 
-Заменить значения переменных в файле `provisioning/provisioning.sh`:
-
-`ENVIRONMENT` - имя окружения (staging или production)
-`FDQN_SERVER_NAME` - FDQN или доменное имя по которому должен быть доступен проект (staging.nfsmir.ru или production.nfsmir.ru) \
-`ADMIN_EMAIL` - мыло на которое будут приходить письма о скором истечении сертификата, если он по каким-то причинам автоматически не продлится
-
-Скопировать файл `provisioning.sh` на сервер, дать ему разрешение на выполнение и запустить
-
-```
-chmod +x ./provisioning.sh
-sudo ./provisioning.sh
-```
-
 Сделать требуется один раз при установке сервера
 
 **FDQN должен существовать и резолвиться** до запуска скрипта, иначе SSL сертификат не будет выпущен.
+
+
+1. Зайти под рутом
+1. Объявить переменные
+  `FDQN` - FDQN или доменное имя по которому должно быть доступно окружение \
+  `ADMIN_EMAIL` - мыло на которое будут приходить письма о скором истечении сертификата, если он по каким-то причинам автоматически не продлится
+1. Разместить проект на сервере и запустить `bin/provisioning.sh` скрипт
+
+Пример:
+
+```
+sudo su
+export FDQN=admin.nfsmir.ru
+export ADMIN_EMAIL=mail@gmail.com
+chmod +x bin/provisioning.sh
+bin/provisioning.sh staging
+
+exit
+```
 
 ### Create SWAP (optional)
 
@@ -89,7 +95,6 @@ docker buildx build --platform linux/amd64 \
 
 ```
 FDQN=<FDQN>
-ADMIN_EMAIL=<ADMIN_EMAIL>
 POSTGRES_USER=<POSTGRES_USER>
 POSTGRES_PASSWORD=<POSTGRES_PASSWORD>
 POSTGRES_DB_NAME=<POSTGRES_DB_NAME>
@@ -99,7 +104,6 @@ POSTGRES_DB_NAME=<POSTGRES_DB_NAME>
 
 ```
 FDQN=admin.nfsmir.ru
-ADMIN_EMAIL=user@gmail.com
 POSTGRES_USER=nfs_staging
 POSTGRES_PASSWORD=S0pT4RavrJZXK04sdnJP
 POSTGRES_DB_NAME=nfs_staging
