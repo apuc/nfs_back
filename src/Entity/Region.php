@@ -12,7 +12,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: RegionRepository::class)]
 #[ORM\Table(name: 'region', options: ['comment' => 'Справочник регионов'])]
-#[ORM\Index(columns: ['title'], name: 'region_title_idx')]
 class Region
 {
     use TimestampableEntity;

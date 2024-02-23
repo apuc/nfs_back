@@ -23,4 +23,9 @@ class RegionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Region::class);
     }
+
+    public function findById(int $id): ?Region
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }
