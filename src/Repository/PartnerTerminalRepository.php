@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Base\Traits\DBTrait;
 use App\Entity\PartnerTerminal;
-use App\Service\PartnerTerminalService\Constants\PartnerTerminalConstants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -30,7 +30,7 @@ class CreateController extends AbstractController
     /**
      * Создать новое ТСП
      */
-    #[Route('/api/catalog/partner', methods: ['PUT'])]
+    #[Route('/api/catalog/partner', methods: ['POST'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',

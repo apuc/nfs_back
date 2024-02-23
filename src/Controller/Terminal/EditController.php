@@ -30,7 +30,7 @@ class EditController extends AbstractController
     /**
      * Отредактировать терминал.
      */
-    #[Route('/api/catalog/terminal', methods: ['POST'])]
+    #[Route('/api/catalog/terminal', methods: ['PUT'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',

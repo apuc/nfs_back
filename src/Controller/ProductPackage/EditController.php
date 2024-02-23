@@ -30,7 +30,7 @@ class EditController extends AbstractController
     /**
      * Отредактировать пакет услуг.
      */
-    #[Route('/api/catalog/product/package', methods: ['POST'])]
+    #[Route('/api/catalog/product/package', methods: ['PUT'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',

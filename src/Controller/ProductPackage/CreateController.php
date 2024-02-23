@@ -30,7 +30,7 @@ class CreateController extends AbstractController
     /**
      * Создать новый пакет услуг.
      */
-    #[Route('/api/catalog/product/package', methods: ['PUT'])]
+    #[Route('/api/catalog/product/package', methods: ['POST'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',

@@ -2,10 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\Certificate;
 
+use App\DTO\Builder\CertificateEditDTOBuilder;
+use App\DTO\Builder\OrderEditDTOBuilder;
 use App\DTO\Builder\PartnerEditDTOBuilder;
+use App\DTO\Request\CertificateEditDTO;
+use App\DTO\Request\OrderEditDTO;
 use App\DTO\Request\PartnerEditDTO;
+use App\Service\CertificateService\Component\CertificateActionComponent;
+use App\Service\CertificateService\DTO\CertificateDTO;
+use App\Service\OrderService\Component\OrderActionComponent;
+use App\Service\OrderService\DTO\OrderDTO;
 use App\Service\PartnerService\Component\PartnerActionComponent;
 use App\Service\PartnerService\DTO\PartnerDTO;
 use JMS\Serializer\ArrayTransformerInterface;
@@ -21,7 +29,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EditController extends AbstractController
 {
     public function __construct(
-        private PartnerActionComponent $actionComponent,
+        private CertificateActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer,
         private ValidatorInterface $validator,
     ) {
@@ -30,17 +38,17 @@ class EditController extends AbstractController
     /**
      * Отредактировать ТСП
      */
-    #[Route('/api/catalog/partner', methods: ['PUT'])]
+    #[Route('/api/catalog/certificate', methods: ['PUT'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerDTO::class)
+            ref: new Model(type: CertificateDTO::class)
         )
     )]
     #[Attributes\Parameter(
         name: 'identifier',
-        description: 'Идентификатор ТСП',
+        description: 'Идентификатор сертификата',
         in: 'query',
         required: true,
         schema: new Attributes\Schema(type: 'integer')
@@ -48,13 +56,13 @@ class EditController extends AbstractController
     #[Attributes\RequestBody(
         required: true,
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerEditDTO::class)
+            ref: new Model(type: CertificateEditDTO::class)
         )
     )]
-    #[Attributes\Tag(name: 'Partner')]
+    #[Attributes\Tag(name: 'Certificate')]
     public function create(Request $request): JsonResponse
     {
-        $requestDTO = PartnerEditDTOBuilder::build(
+        $requestDTO = CertificateEditDTOBuilder::build(
             (int) $request->get('identifier'),
             json_decode($request->getContent(), true)
         );

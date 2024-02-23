@@ -30,7 +30,7 @@ class CreateController extends AbstractController
     /**
      * Создать новый терминал.
      */
-    #[Route('/api/catalog/terminal', methods: ['PUT'])]
+    #[Route('/api/catalog/terminal', methods: ['POST'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',

@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Partner;
+namespace App\Controller\Order;
 
+use App\DTO\Builder\OrderEditDTOBuilder;
 use App\DTO\Builder\PartnerEditDTOBuilder;
+use App\DTO\Request\OrderEditDTO;
 use App\DTO\Request\PartnerEditDTO;
+use App\Service\OrderService\Component\OrderActionComponent;
+use App\Service\OrderService\DTO\OrderDTO;
 use App\Service\PartnerService\Component\PartnerActionComponent;
 use App\Service\PartnerService\DTO\PartnerDTO;
 use JMS\Serializer\ArrayTransformerInterface;
@@ -21,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EditController extends AbstractController
 {
     public function __construct(
-        private PartnerActionComponent $actionComponent,
+        private OrderActionComponent $actionComponent,
         private ArrayTransformerInterface $serializer,
         private ValidatorInterface $validator,
     ) {
@@ -30,17 +34,17 @@ class EditController extends AbstractController
     /**
      * Отредактировать ТСП
      */
-    #[Route('/api/catalog/partner', methods: ['PUT'])]
+    #[Route('/api/catalog/order', methods: ['PUT'])]
     #[Attributes\Response(
         response: 200,
         description: 'Success',
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerDTO::class)
+            ref: new Model(type: OrderDTO::class)
         )
     )]
     #[Attributes\Parameter(
         name: 'identifier',
-        description: 'Идентификатор ТСП',
+        description: 'Идентификатор Заказа',
         in: 'query',
         required: true,
         schema: new Attributes\Schema(type: 'integer')
@@ -48,13 +52,13 @@ class EditController extends AbstractController
     #[Attributes\RequestBody(
         required: true,
         content: new Attributes\JsonContent(
-            ref: new Model(type: PartnerEditDTO::class)
+            ref: new Model(type: OrderEditDTO::class)
         )
     )]
-    #[Attributes\Tag(name: 'Partner')]
+    #[Attributes\Tag(name: 'Order')]
     public function create(Request $request): JsonResponse
     {
-        $requestDTO = PartnerEditDTOBuilder::build(
+        $requestDTO = OrderEditDTOBuilder::build(
             (int) $request->get('identifier'),
             json_decode($request->getContent(), true)
         );
