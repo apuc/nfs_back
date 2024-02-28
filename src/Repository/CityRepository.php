@@ -23,4 +23,9 @@ class CityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, City::class);
     }
+
+    public function findById(int $id): City
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }

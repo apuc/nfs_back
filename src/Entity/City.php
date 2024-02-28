@@ -11,7 +11,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 #[ORM\Table(name: 'city', options: ['comment' => 'Справочник городов'])]
-#[ORM\Index(columns: ['title'], name: 'city_title_idx')]
 #[ORM\Index(columns: ['region_id'], name: 'city_region_idx')]
 class City
 {
@@ -33,9 +32,11 @@ class City
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     public function getTitle(): string
@@ -43,9 +44,11 @@ class City
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
     public function getRegion(): Region
@@ -53,8 +56,10 @@ class City
         return $this->region;
     }
 
-    public function setRegion(Region $region): void
+    public function setRegion(Region $region): self
     {
         $this->region = $region;
+
+        return $this;
     }
 }

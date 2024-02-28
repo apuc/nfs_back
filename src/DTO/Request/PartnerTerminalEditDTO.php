@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\DTO\Request;
 
+use App\Service\Validator\Constraints as AcmeAssert;
 use Doctrine\DBAL\Types\Types;
 use JMS\Serializer\Annotation\Exclude;
+use OpenApi\Attributes;
 
 class PartnerTerminalEditDTO
 {
@@ -18,7 +20,6 @@ class PartnerTerminalEditDTO
     )]
     #[AcmeAssert\ContainsOnlyDigits]
     #[AcmeAssert\PartnerExists]
-    #[AcmeAssert\NotEmpty]
     private ?int $partnerId = null;
 
     #[Attributes\Property(
@@ -27,7 +28,6 @@ class PartnerTerminalEditDTO
     )]
     #[AcmeAssert\ContainsOnlyDigits]
     #[AcmeAssert\ProductPackageExists]
-    #[AcmeAssert\NotEmpty]
     private ?int $packageId = null;
 
     #[Attributes\Property(
@@ -36,7 +36,6 @@ class PartnerTerminalEditDTO
     )]
     #[AcmeAssert\ContainsOnlyDigits]
     #[AcmeAssert\TerminalExists]
-    #[AcmeAssert\NotEmpty]
     private ?int $terminalId = null;
 
     #[Attributes\Property(
@@ -44,7 +43,6 @@ class PartnerTerminalEditDTO
         type: Types::STRING,
         example: '2023-06-06T16:43:02'
     )]
-    #[AcmeAssert\NotEmpty]
     private ?\DateTime $transferredAt = null;
 
     #[Attributes\Property(
@@ -52,7 +50,6 @@ class PartnerTerminalEditDTO
         type: Types::STRING,
         example: '2023-06-06T16:43:02'
     )]
-    #[AcmeAssert\NotEmpty]
     private ?\DateTime $returnedAt = null;
 
     #[AcmeAssert\ContainsOnlyDigits]
@@ -145,5 +142,4 @@ class PartnerTerminalEditDTO
 
         return $this;
     }
-
 }
