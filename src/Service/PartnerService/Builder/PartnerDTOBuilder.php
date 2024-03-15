@@ -29,8 +29,8 @@ class PartnerDTOBuilder
                     ->setAddress($partner->getDetailsByKey('address'))
                     ->setBank($partner->getDetailsByKey('bank'))
                     ->setBik((int) $partner->getDetailsByKey('bik'))
-                    ->setAccountNumber($partner->getDetailsByKey('account'))
-                    ->setCorrAccountNumber($partner->getDetailsByKey('corr_account'))
+                    ->setAccountNumber($partner->getDetailsByKey('account_number'))
+                    ->setCorrAccountNumber($partner->getDetailsByKey('corr_account_number'))
             )
             ->setContacts(
                 (new PartnerContactsDTO())
