@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\ProductService\DTO;
 
-use App\Service\PartnerService\DTO\PartnerDTO;
-use Doctrine\Common\Collections\Collection;
-use JMS\Serializer\Annotation\Exclude;
-
-class ProductDTO
+class ProductShortDTO
 {
     private int $id;
-    private PartnerDTO $partner;
-    private Collection $packages;
     private string $title;
     private int $amount;
     private ?string $description = null;
@@ -27,33 +21,9 @@ class ProductDTO
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function setId(int $id): ProductShortDTO
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getPartner(): PartnerDTO
-    {
-        return $this->partner;
-    }
-
-    public function setPartner(PartnerDTO $partner): self
-    {
-        $this->partner = $partner;
-
-        return $this;
-    }
-
-    public function getPackage(): ?Collection
-    {
-        return $this->packages;
-    }
-
-    public function setPackage(Collection $packages): self
-    {
-        $this->packages = $packages;
 
         return $this;
     }
@@ -63,7 +33,7 @@ class ProductDTO
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): ProductShortDTO
     {
         $this->title = $title;
 
@@ -75,7 +45,7 @@ class ProductDTO
         return $this->amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount(int $amount): ProductShortDTO
     {
         $this->amount = $amount;
 
@@ -87,7 +57,7 @@ class ProductDTO
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): ProductShortDTO
     {
         $this->description = $description;
 
@@ -99,7 +69,7 @@ class ProductDTO
         return $this->useCount;
     }
 
-    public function setUseCount(int $useCount): self
+    public function setUseCount(int $useCount): ProductShortDTO
     {
         $this->useCount = $useCount;
 
@@ -111,7 +81,7 @@ class ProductDTO
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(int $status): ProductShortDTO
     {
         $this->status = $status;
 
@@ -123,7 +93,7 @@ class ProductDTO
         return $this->hash;
     }
 
-    public function setHash(string $hash): self
+    public function setHash(string $hash): ProductShortDTO
     {
         $this->hash = $hash;
 
@@ -135,7 +105,7 @@ class ProductDTO
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): ProductShortDTO
     {
         $this->createdAt = $createdAt;
 
@@ -147,7 +117,7 @@ class ProductDTO
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): ProductShortDTO
     {
         $this->updatedAt = $updatedAt;
 

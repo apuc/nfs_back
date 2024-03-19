@@ -20,6 +20,7 @@ class ProductPackageDTOBuilder
             ->setTitle($package->getTitle())
             ->setAmount($package->getAmount())
             ->setType($package->getType())
+            ->setProducts($package->getProducts())
             ->setFinishedAt(\DateTimeImmutable::createFromMutable($package->getFinishedAt()))
             ->setCreatedAt(\DateTimeImmutable::createFromMutable($package->getCreatedAt()))
             ->setUpdatedAt(\DateTimeImmutable::createFromMutable($package->getUpdatedAt()));

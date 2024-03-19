@@ -7,19 +7,18 @@ namespace App\Service\ProductService\Builder;
 use App\Entity\Product;
 use App\Service\PartnerService\Builder\PartnerDTOBuilder;
 use App\Service\ProductService\DTO\ProductDTO;
+use App\Service\ProductService\DTO\ProductShortDTO;
 
-class ProductDTOBuilder
+class ProductShortDTOBuilder
 {
-    public static function build(Product $product = null): ?ProductDTO
+    public static function build(Product $product = null): ?ProductShortDTO
     {
         if (null === $product) {
             return null;
         }
 
-        return (new ProductDTO())
+        return (new ProductShortDTO())
             ->setId($product->getId())
-            ->setPartner(PartnerDTOBuilder::build($product->getPartner()))
-            ->setPackage($product->getProductPackage())
             ->setTitle($product->getTitle())
             ->setDescription($product->getDescription())
             ->setAmount($product->getAmount())

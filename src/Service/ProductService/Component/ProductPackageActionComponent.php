@@ -6,8 +6,10 @@ namespace App\Service\ProductService\Component;
 
 use App\DTO\Request\ProductPackageCreateDTO;
 use App\DTO\Request\ProductPackageEditDTO;
+use App\DTO\Request\ProductPackageProductCreateDTO;
 use App\Entity\ProductPackage;
 use App\Repository\ProductPackageRepository;
+use App\Repository\ProductRepository;
 use App\Service\ProductService\Builder\ProductPackageDTOBuilder;
 use App\Service\ProductService\Constants\ProductConstants;
 use App\Service\ProductService\DTO\ProductPackageDTO;
@@ -17,6 +19,7 @@ class ProductPackageActionComponent
 {
     public function __construct(
         private ProductPackageRepository $packageRepository,
+        private ProductRepository $productRepository,
         private LoggerInterface $productLogger,
     ) {
     }
@@ -59,6 +62,20 @@ class ProductPackageActionComponent
         return ProductPackageDTOBuilder::build($productPackage);
     }
 
+    public function addProduct(ProductPackageProductCreateDTO $productCreateDTO)
+    {
+        $productPackage = $this->packageRepository->findOneBy(['id' => $productCreateDTO->getProductPackageId()]);
+        $product = $this->productRepository->findOneBy(['id' => $productCreateDTO->getProductId()]);
+
+        if (null !== $productPackage and null !== $product) {
+            $productPackage->addProduct($product);
+
+            $this->packageRepository->save($productPackage);
+        }
+
+        return ProductPackageDTOBuilder::build($productPackage);
+    }
+
     public function edit(ProductPackageEditDTO $requestDTO): ProductPackageDTO
     {
         $productPackage = $this->packageRepository->findOneBy(['id' => $requestDTO->getId()]);
@@ -89,11 +106,11 @@ class ProductPackageActionComponent
             return true;
         } catch (\Throwable $exception) {
             $this->productLogger->critical(
-                'Error when product package remove: '.$exception->getMessage(),
+                'Error when product package remove: ' . $exception->getMessage(),
                 [
                     'identifier' => $identifier,
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
+                    'file'       => $exception->getFile(),
+                    'line'       => $exception->getLine(),
                 ]
             );
 

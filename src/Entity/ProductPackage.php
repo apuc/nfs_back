@@ -6,9 +6,10 @@ namespace App\Entity;
 
 use App\Repository\ProductPackageRepository;
 use App\Service\ProductService\Constants\ProductConstants;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: ProductPackageRepository::class)]
@@ -34,14 +35,26 @@ class ProductPackage
     #[ORM\Column(type: Types::INTEGER, length: 1, nullable: false)]
     private int $type = ProductConstants::FULL;
 
-    #[ORM\Column(type: Types::INTEGER, length: 2, nullable: false, options: ['default' => ProductConstants::STATUS_ACTIVE, 'comment' => 'Статус пакета услуг'])]
+    #[ORM\Column(type: Types::INTEGER, length: 2, nullable: false, options: [
+        'default' => ProductConstants::STATUS_ACTIVE,
+        'comment' => 'Статус пакета услуг',
+    ])]
     private int $status = ProductConstants::STATUS_ACTIVE;
 
-    #[ORM\OneToMany(mappedBy: 'productPackage', targetEntity: Product::class)]
-    private ?PersistentCollection $products = null;
+
+    #[ORM\ManyToMany(targetEntity: 'Product')]
+    #[ORM\JoinTable(name: 'product_package_product')]
+    #[ORM\JoinColumn(name: 'product_package_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'product_id', referencedColumnName: 'id')]
+    private ?Collection $products;
 
     #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
     private string $hash;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -115,7 +128,7 @@ class ProductPackage
         return $this;
     }
 
-    public function getProducts(): ?PersistentCollection
+    public function getProducts(): ?Collection
     {
         return $this->products;
     }
@@ -123,6 +136,8 @@ class ProductPackage
     public function addProduct(Product $product): self
     {
         $this->products->add($product);
+
+        $product->addProductPackage($this);
 
         return $this;
     }

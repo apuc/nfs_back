@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\ProductService\DTO;
 
-use App\Entity\Product;
 use App\Service\ProductService\Constants\ProductConstants;
-use JMS\Serializer\Annotation\Exclude;
+use Doctrine\Common\Collections\Collection;
 
 class ProductPackageDTO
 {
@@ -15,8 +14,8 @@ class ProductPackageDTO
     private int $amount;
     private ?\DateTimeImmutable $finishedAt = null;
     private int $type = ProductConstants::FULL;
-    #[Exclude]
-    private array $products = [];
+
+    private Collection $products;
     private \DateTimeImmutable $createdAt;
     private \DateTimeImmutable $updatedAt;
 
@@ -80,12 +79,16 @@ class ProductPackageDTO
         return $this;
     }
 
-    /**
-     * @return Product[]
-     */
-    public function getProducts(): array
+    public function getProducts(): Collection
     {
         return $this->products;
+    }
+
+    public function setProducts(Collection $collection): self
+    {
+        $this->products = $collection;
+
+        return $this;
     }
 
     public function addProduct(ProductDTO $product): self

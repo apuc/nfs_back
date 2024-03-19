@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use App\Service\ProductService\Constants\ProductConstants;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -13,7 +15,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'product', options: ['comment' => 'Справочник услуг'])]
 #[ORM\Index(columns: ['partner_id'], name: 'product_partner_idx')]
-#[ORM\Index(columns: ['package_id'], name: 'product_package_idx')]
 #[ORM\Index(columns: ['status'], name: 'product_status_idx')]
 class Product
 {
@@ -27,8 +28,11 @@ class Product
     #[ORM\ManyToOne(targetEntity: Partner::class, inversedBy: 'products')]
     private Partner $partner;
 
-    #[ORM\ManyToOne(targetEntity: ProductPackage::class, inversedBy: 'products')]
-    private ProductPackage $package;
+    #[ORM\ManyToMany(targetEntity: ProductPackage::class)]
+    #[ORM\JoinTable(name: 'product_package_product')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'product_package_id', referencedColumnName: 'id')]
+    private Collection $packages;
 
     #[ORM\Column(type: Types::STRING, length: 200, nullable: false)]
     private string $title;
@@ -47,6 +51,11 @@ class Product
 
     #[ORM\Column(type: Types::STRING, length: 60, nullable: false)]
     private string $hash;
+
+    public function __construct()
+    {
+        $this->packages = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -72,14 +81,14 @@ class Product
         return $this;
     }
 
-    public function getProductPackage(): ProductPackage
+    public function getProductPackage(): ?Collection
     {
-        return $this->package;
+        return $this->packages;
     }
 
-    public function setProductPackage(ProductPackage $package): self
+    public function addProductPackage(ProductPackage $package): self
     {
-        $this->package = $package;
+        $this->packages->add($package);
 
         return $this;
     }
