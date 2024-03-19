@@ -21,15 +21,6 @@ class ProductCreateDTO
     private ?int $partnerId = null;
 
     #[Attributes\Property(
-        description: 'Идентификатор пакета услуг',
-        type: Types::INTEGER,
-    )]
-    #[AcmeAssert\ContainsOnlyDigits]
-    #[AcmeAssert\ProductPackageExists]
-    #[AcmeAssert\NotEmpty]
-    private ?int $packageId = null;
-
-    #[Attributes\Property(
         description: 'Наименование',
         type: Types::STRING,
     )]

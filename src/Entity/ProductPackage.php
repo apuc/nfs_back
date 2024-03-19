@@ -41,7 +41,6 @@ class ProductPackage
     ])]
     private int $status = ProductConstants::STATUS_ACTIVE;
 
-
     #[ORM\ManyToMany(targetEntity: 'Product')]
     #[ORM\JoinTable(name: 'product_package_product')]
     #[ORM\JoinColumn(name: 'product_package_id', referencedColumnName: 'id')]
@@ -137,7 +136,7 @@ class ProductPackage
     {
         $this->products->add($product);
 
-        $product->addProductPackage($this);
+        //$product->addProductPackage($this);
 
         return $this;
     }
