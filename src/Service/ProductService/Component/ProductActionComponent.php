@@ -52,7 +52,6 @@ class ProductActionComponent
         if (null === $product) {
             $product = (new Product())
                 ->setPartner($this->partnerService->findEntityById($requestDTO->getPartnerId()))
-                ->setProductPackage($this->packageRepository->findOneBy(['id' => $requestDTO->getPackageId()]))
                 ->setTitle($requestDTO->getTitle())
                 ->setAmount($requestDTO->getAmount())
                 ->setDescription($requestDTO->getDescription())

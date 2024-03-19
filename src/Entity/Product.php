@@ -93,6 +93,18 @@ class Product
         return $this;
     }
 
+    public function getPackages(): Collection
+    {
+        return $this->packages;
+    }
+
+    public function addPackages(ProductPackage $package): self
+    {
+        $this->packages->add($package);
+
+        return $this;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
