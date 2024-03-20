@@ -13,7 +13,6 @@ class ProductEditDTOBuilder
         return (new ProductEditDTO())
             ->setId($identifier)
             ->setPartnerId($requestData['partner_id'] ?? null)
-            ->setPackageId($requestData['package_id'] ?? null)
             ->setTitle($requestData['title'] ?? null)
             ->setAmount($requestData['amount'] ?? null)
             ->setDescription($requestData['description'] ?? null)

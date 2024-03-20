@@ -74,14 +74,8 @@ class ProductActionComponent
                 $partner = $this->partnerService->findEntityById($requestDTO->getPartnerId());
             }
 
-            $package = $product->getProductPackage()->getId();
-            if (null !== $requestDTO->getPackageId()) {
-                $package = $this->packageRepository->findOneBy(['id' => $requestDTO->getPackageId()]);
-            }
-
             $product
                 ->setPartner($partner)
-                ->setProductPackage($package)
                 ->setTitle($requestDTO->getTitle() ?? $product->getTitle())
                 ->setAmount($requestDTO->getAmount() ?? $product->getAmount())
                 ->setDescription($requestDTO->getDescription() ?? $product->getDescription())
