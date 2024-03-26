@@ -35,7 +35,7 @@ class ProductPackageCreateDTO
     private ?\DateTime $finishedAt = null;
 
     #[Attributes\Property(
-        description: 'Тип пакета: 1 - полный, 2 - частичный',
+        description: 'Тип пакета: 1 - полный, 2 - частичный, 3 - подписка',
         type: Types::INTEGER,
     )]
     #[AcmeAssert\ContainsOnlyDigits]
